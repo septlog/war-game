@@ -1,0 +1,27 @@
+ul {
+  list-style: square;
+}
+
+ul > li {
+  margin-top: 10px;
+}
+
+#canvas-container {
+  position: relative;
+  height: 400px;
+}
+
+#canvas {
+  position: absolute;
+  z-index: 1;
+}
+
+#layer {
+  position: absolute;
+  z-index: 0;
+}
+
+.choice {
+  display: block;
+  margin: 0.3em 0 0.3em 0;
+}

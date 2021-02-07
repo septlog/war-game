@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="canvas-container" style="position: relative;">
+        <canvas id="canvas" width="1200" height="400"></canvas>
+        <canvas id="layer" width="1200" height="400"></canvas>
+    </div>
+
+    <div style="margin-top: 10rem; position: relative">
+        <button class="choice" id="default-chosen">骑兵</button>
+        <button class="choice">步兵</button>
+        <button class="choice">弓箭手</button>
+    </div>
+    <div><input type="button" id="start" value="开始打仗！"></div>
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./model/cavalry.js"></script>
+    <script type="module" src="./model/infantry.js"></script>
+    <script type="module" src="./model/archer.js"></script>
+    <script type="module" src="./model/soldier.js"></script>
+    <script type="module" src="./game.js"></script>
+    <script type="module" src="./player.js"></script>
+</body>
+
+</html>
