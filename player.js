@@ -9,7 +9,9 @@ export class Player {
    * @param {number} infantryNumber - 步兵
    * @param {number} archerNumber - 弓箭手
    */
-  constructor(money, cavalryNumber, infantryNumber, archerNumber) {
+  constructor(game, ctx, money, cavalryNumber, infantryNumber, archerNumber) {
+    this.game = game;
+    this.ctx = ctx;
     this.money = money;
     this.cavalryNumber = cavalryNumber;
     this.infantryNumber = infantryNumber;
@@ -33,22 +35,22 @@ export class Player {
   /**
    * 排兵布阵
    */
-  arrange(game, ctx) {
+  arrange() {
     canvas.addEventListener('mousedown', (e) => {
-      let x = Math.floor(e.offsetX / game.size);
-      let y = Math.floor(e.offsetY / game.size);
-      switch (game.chosen) {
+      let x = Math.floor(e.offsetX / this.game.size);
+      let y = Math.floor(e.offsetY / this.game.size);
+      switch (this.game.chosen) {
         case '骑兵':
           let cavalry = new Cavalry(x, y);
-          cavalry.deploy(game, ctx, cavalry);
+          this.deploy(cavalry);
           break;
         case '步兵':
           let infantry = new Infantry(x, y);
-          infantry.deploy(game, ctx, infantry);
+          this.deploy(infantry);
           break;
         case '弓箭手':
           let archer = new Archer(x, y);
-          archer.deploy(game, ctx, archer);
+          this.deploy(archer);
           break;
         default:
           break;
@@ -57,25 +59,59 @@ export class Player {
 
     canvas.addEventListener('mousemove', (e) => {
       if (e.ctrlKey) {
-        let x = Math.floor(e.offsetX / game.size);
-        let y = Math.floor(e.offsetY / game.size);
-        switch (game.chosen) {
+        let x = Math.floor(e.offsetX / this.game.size);
+        let y = Math.floor(e.offsetY / this.game.size);
+        switch (this.game.chosen) {
           case '骑兵':
             let cavalry = new Cavalry(x, y);
-            cavalry.deployMulti(game, ctx, cavalry);
+            this.deployMulti(cavalry);
             break;
           case '步兵':
             let infantry = new Infantry(x, y);
-            infantry.deployMulti(game, ctx, infantry);
+            this.deployMulti(infantry);
             break;
           case '弓箭手':
             let archer = new Archer(x, y);
-            archer.deployMulti(game, ctx, archer);
+            this.deployMulti(archer);
             break;
           default:
             break;
         }
       }
     });
+  }
+
+  deploy(soldier) {
+    if (this.soldierExist(soldier)) {
+      this.deleteSoldier(soldier);
+    } else {
+      this.addSoldier(soldier);
+    }
+  }
+
+  deployMulti(soldier) {
+    if (!this.soldierExist(soldier)) {
+      this.addSoldier(soldier);
+    }
+  }
+
+  addSoldier(soldier) {
+    let size = this.game.size;
+    this.ctx.fillStyle = soldier.color;
+    this.ctx.fillRect(soldier.x * size, soldier.y * size, size, size);
+    this.game.soldierMap.set(soldier.x + ' ' + soldier.y, soldier);
+  }
+
+  deleteSoldier(soldier) {
+    let size = this.game.size;
+    this.game.soldierMap.delete(soldier.x + ' ' + soldier.y);
+    this.ctx.clearRect(soldier.x * size, soldier.y * size, size, size);
+  }
+  /**
+   * 士兵是否存在
+   * @param {Soldier} soidler - 士兵
+   */
+  soldierExist(soidler) {
+    return this.game.soldierMap.has(soidler.x + ' ' + soidler.y);
   }
 }

@@ -1,14 +1,15 @@
 export class Game {
-  constructor(width, height, size) {
+  constructor(width, height, size, layerCtx) {
     this.width = width;
     this.height = height;
     this.size = size;
-    this.soldierList = new Set();
+    this.layerCtx = layerCtx;
     this.chosen = '骑兵';
     this.zero = 0;
-    this.infantryList = new Set();
-    this.cavalryList = new Set();
-    this.archerList = new Set();
+    this.infantrySet = new Set();
+    this.cavalrySet = new Set();
+    this.archerSet = new Set();
+    this.soldierMap = new Map();
   }
   start() {
     console.log('游戏开始！');
@@ -52,13 +53,23 @@ export class Game {
       ctx.stroke();
     }
   }
-
-  roll() {
-    // console.log(this.cavalryList);
-    // console.log(this.infantryList);
-    // console.log(this.archerList);
-    this.cavalryList.forEach((c) => {
-      c.findEnemy();
+  /**
+   * 开始打仗
+   */
+  roll(ctx) {
+    let map = new Map();
+    this.soldierMap.forEach((value, key) => {
+      map.set(key, value);
+    });
+    map.forEach((value, key) => {
+      if (this.soldierMap.has(key)) {
+        let point = value.move(this, ctx, this.size);
+        if (point) {
+          value.tryAttack(this, point);
+        }
+      }
     });
   }
+
+  getSoldierAtPoint(point) {}
 }

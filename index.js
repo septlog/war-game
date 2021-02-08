@@ -9,13 +9,15 @@ const width = canvas.width;
 const height = canvas.height;
 const size = 10;
 
-const game = new Game(width, height, size);
+const game = new Game(width, height, size, layerCtx);
 game.start();
 game.draw(ctx);
 
-const player = new Player(100000, 10, 10);
+const player = new Player(game, layerCtx);
 player.arrange(game, layerCtx);
 
 document.getElementById('start').addEventListener('click', (e) => {
-  game.roll();
+  setInterval(() => {
+    game.roll(layerCtx);
+  }, 50);
 });
