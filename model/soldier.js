@@ -77,5 +77,11 @@ export class Soldier {
     let size = game.size;
     game.soldierMap.delete(x + ' ' + y);
     game.layerCtx.clearRect(x * size, y * size, size, size);
+
+    game.animateCtx.fillStyle = 'green';
+    game.animateCtx.fillRect(x * size, y * size, size, size);
+    setTimeout(() => {
+      game.animateCtx.clearRect(x * size, y * size, size, size);
+    }, 100);
   }
 }

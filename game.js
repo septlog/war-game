@@ -1,5 +1,5 @@
 export class Game {
-  constructor(width, height, size, layerCtx) {
+  constructor(width, height, size, layerCtx, animateCtx) {
     this.width = width;
     this.height = height;
     this.size = size;
@@ -10,6 +10,7 @@ export class Game {
     this.cavalrySet = new Set();
     this.archerSet = new Set();
     this.soldierMap = new Map();
+    this.animateCtx = animateCtx;
   }
   start() {
     console.log('游戏开始！');
